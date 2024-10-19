@@ -1,0 +1,11 @@
+{% extends "Inventory/base.html"%}
+
+{% block content %}
+<div class="row">
+    <div class="col-11 col-md-4 mx-auto mt-5 px-3">
+        <h1 class="fw-light">Track and Manage Your Inventory</h1>
+        <p class="fw-light">Welcome to the Inventory Management System. This system allows you to track and manage your inventory.</p>
+        <div>
+            <a href="{% url 'dashboard' %}" class="btn btn-primary">Get Started Now</a>
+        </div>
+{% endblock %}
