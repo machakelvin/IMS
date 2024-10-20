@@ -1,11 +1,11 @@
-from django.shortcuts import render , redirect 
+from django.shortcuts import render , redirect, get_object_or_404
 from django.views.generic import TemplateView 
-from .models import InventoryItem, Category
+from .models import InventoryItem, Category, Item
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import authenticate, login 
 from .forms import UserRegisterForm, InventoryItemForm
-from .views import InventoryItem
+from .views import InventoryItem, Category
 from django.views import View
 from django.http import HttpResponseRedirect
 from django.db.models import F
@@ -99,3 +99,27 @@ class DeleteItem(LoginRequiredMixin, DeleteView):
     template_name = 'inventory/delete_item.html'
     success_url = reverse_lazy('dashboard')
     context_object_name = 'item'
+    
+    
+class SellItem(LoginRequiredMixin, View):
+    def get(self, request, item_id):
+        # Display the item selling form
+        item = get_object_or_404(InventoryItem, id=item_id, user=request.user)
+        return render(request, 'inventory/sell.html', {'item': item})
+
+    def post(self, request, item_id):
+        item = get_object_or_404(InventoryItem, id=item_id, user=request.user)
+
+        # Get the quantity to sell from the form data
+        quantity_to_sell = int(request.POST.get('quantity', 0))
+
+        if quantity_to_sell > 0 and item.quantity >= quantity_to_sell:
+            # Update the item's quantity
+            item.quantity = F('quantity') - quantity_to_sell
+            item.save()
+
+            messages.success(request, f"Successfully sold {quantity_to_sell} units of {item.name}.")
+            return redirect('dashboard')  # Redirect to the dashboard after selling
+        else:
+            messages.error(request, "Invalid quantity. Please check and try again.")
+            return redirect('sell-item', item_id=item.id)  # R

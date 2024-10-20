@@ -1,0 +1,25 @@
+{% extends 'Inventory/base.html' %}
+
+{% block content %}
+<a href="{% url 'dashboard' %}" class="btn btn-outline-primary my-3 mx-4">Go back</a>
+
+<div class="row">
+    <div class="col-11 col-md-4 mx-auto mt-5">
+        <h1>Sell {{ item.name }}</h1>
+
+        <form method="POST">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="quantity">Quantity to Sell</label>
+                <input type="number" class="form-control" id="quantity" name="quantity" min="1" max="{{ item.quantity }}" required>
+                <small class="form-text text-muted">Available: {{ item.quantity }}</small>
+            </div>
+
+            <div class="mt-3">
+                <button type="submit" class="btn btn-primary">Sell Item</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

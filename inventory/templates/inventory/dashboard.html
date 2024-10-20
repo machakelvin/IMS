@@ -22,7 +22,6 @@
       <table class="table table-hover table-striped">
         <thead>
           <tr>
-            <th scope="col">ID</th>
             <th scope="col">Name</th>
             <th scope="col">Category</th>
             <th scope="col">Quantity</th>
@@ -37,14 +36,13 @@
               <td>-</td>
               <td>-</td>
               <td>-</td>
-              <td>-</td>
               <td></td>
             </tr>
           {% endif %}
 
           {% for item in items %}
             <tr>
-              <th scope="row">{{ item.id }}</th>
+              {% comment %} <th scope="row">{{ item.id }}</th> {% endcomment %}
               <td>{{ item.name }}</td>
               <td>{{ item.category.name }}</td>
               {% if item.id in low_inventory_ids %}
@@ -57,6 +55,9 @@
               </td>
               <td>
                 <a href="{% url 'delete-item' item.id %}" class="btn btn-danger btn-outline-secondary">Delete</a>
+              </td>
+              <td>
+                <a href="{% url 'sell-item' item.id %}" class="btn btn-outline-secondary">Sell</a>
               </td>
             </tr>
           {% endfor %}
