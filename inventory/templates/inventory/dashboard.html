@@ -4,11 +4,16 @@
   {% if messages %}
     <div class="row mt-3">
       {% for message in messages %}
-        {% if message.tags == 'error' %}
-          <div class="col-12 col-md-10 mx-auto alert alert-danger">{{ message }}</div>
-        {% else %}
-          <div class="col-12 col-md-10 mx-auto alert alert-success">{{ message }}</div>
-        {% endif %}
+        <div class="col-12 col-md-10 mx-auto">
+          <div class="alert 
+                       {% if message.tags == 'error' %} alert-danger {% else %} alert-success {% endif %} 
+                       alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+        </div>
       {% endfor %}
     </div>
   {% endif %}
@@ -42,7 +47,6 @@
 
           {% for item in items %}
             <tr>
-              {% comment %} <th scope="row">{{ item.id }}</th> {% endcomment %}
               <td>{{ item.name }}</td>
               <td>{{ item.category.name }}</td>
               {% if item.id in low_inventory_ids %}
@@ -65,4 +69,13 @@
       </table>
     </div>
   </div>
+
+  <script>
+    $(document).ready(function() {
+      // Automatically hide alerts after 5 seconds
+      setTimeout(function() {
+        $('.alert').fadeOut('slow');
+      }, 5000); // 5000 milliseconds = 5 seconds
+    });
+  </script>
 {% endblock %}
