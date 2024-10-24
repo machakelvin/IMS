@@ -134,4 +134,4 @@ LOGIN_URL = 'login'
 
 LOW_QUANTITY = 3
 
-LOGOUT_REDIRECT_URL = 'login'
+LOGOUT_REDIRECT_URL = '/login'

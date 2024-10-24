@@ -11,6 +11,6 @@ urlpatterns = [
     path('dashboard/', Dashboard.as_view(), name='dashboard'),
     path('delete-item/<int:pk>', DeleteItem.as_view(), name='delete-item'),
     path('login/', auth_views.LoginView.as_view(template_name='inventory/login.html'), name='login'),
-    path('logout/', auth_views.LogoutView.as_view(), name='logout'),
+    path('logout/', auth_views.LogoutView.as_view(next_page='index'), name='logout'),
     path('sell/<int:item_id>/', SellItem.as_view(), name='sell-item'),
 ]

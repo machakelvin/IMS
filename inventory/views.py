@@ -9,6 +9,7 @@ from .views import InventoryItem, Category
 from django.views import View
 from django.http import HttpResponseRedirect
 from django.db.models import F
+from django.contrib.auth.views import LoginView
 from django.contrib import messages
 from IMS.settings import LOW_QUANTITY
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
@@ -122,4 +123,19 @@ class SellItem(LoginRequiredMixin, View):
             return redirect('dashboard')  # Redirect to the dashboard after selling
         else:
             messages.error(request, "Invalid quantity. Please check and try again.")
-            return redirect('sell-item', item_id=item.id)  # R
+            return redirect('sell-item', item_id=item.id)  
+        
+        
+        
+class CustomLoginView(LoginView):
+    template_name = 'inventory/login.html'  # Replace with your actual login template path
+
+    def form_valid(self, form):
+        # Call the parent class's form_valid method
+        super().form_valid(form)
+        
+        # Redirect based on the user's role
+        if self.request.user.is_superuser:
+            return redirect('/admin/')  # Redirect to Django admin page
+        else:
+            return redirect('dashboard') # Redirect to the dashboard for normal users

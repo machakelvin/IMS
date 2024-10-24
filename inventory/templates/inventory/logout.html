@@ -4,7 +4,7 @@
 <div class="row">
   <div class="col-11 col-md-4 mx-auto mt-5">
     <h2>Are you sure you want to log out?</h2>
-    <form method="POST" action="{% url 'logout' %}">
+    <form method="post" action="{% url 'logout' %}">
       {% csrf_token %}
       <button type="submit" class="btn btn-danger">Logout</button>
     </form>
